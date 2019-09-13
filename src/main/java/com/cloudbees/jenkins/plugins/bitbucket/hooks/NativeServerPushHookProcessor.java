@@ -78,6 +78,7 @@ public class NativeServerPushHookProcessor extends HookProcessor {
         final NativeServerRefsChangedEvent refsChangedEvent;
         try {
             refsChangedEvent = JsonParser.toJava(payload, NativeServerRefsChangedEvent.class);
+            LOGGER.log(Level.INFO, "refChangedEvent: {0}\n payload: {1}\n instancyType: {2}\n origin: {3}", new Object[]{refsChangedEvent});
         } catch (final IOException e) {
             LOGGER.log(Level.SEVERE, "Can not read hook payload", e);
             return;
@@ -96,10 +97,13 @@ public class NativeServerPushHookProcessor extends HookProcessor {
         for (final NativeServerRefsChangedEvent.Change change : refsChangedEvent.getChanges()) {
             final String type = change.getType();
             if ("UPDATE".equals(type)) {
+                LOGGER.log(Level.INFO, "UPDATE: {0}\n", new Object[]{type});
                 events.put(SCMEvent.Type.UPDATED, change);
             } else if ("DELETE".equals(type)) {
+                LOGGER.log(Level.INFO, "DELETE: {0}\n", new Object[]{type});
                 events.put(SCMEvent.Type.REMOVED, change);
             } else if ("ADD".equals(type)) {
+                LOGGER.log(Level.INFO, "ADD: {0}\n", new Object[]{type});
                 events.put(SCMEvent.Type.CREATED, change);
             } else {
                 LOGGER.log(Level.INFO, "Unknown change event type of {0} received from Bitbucket Server", type);
