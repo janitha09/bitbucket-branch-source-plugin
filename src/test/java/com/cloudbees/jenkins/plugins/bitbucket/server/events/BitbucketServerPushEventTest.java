@@ -46,6 +46,7 @@ public class BitbucketServerPushEventTest {
 
     @Before
     public void loadPayload() throws IOException {
+        System.out.println(getClass().getSimpleName() + "/" + testName.getMethodName() + ".json");
         try (InputStream is = getClass()
                 .getResourceAsStream(getClass().getSimpleName() + "/" + testName.getMethodName() + ".json")) {
             payload = IOUtils.toString(is, "UTF-8");
@@ -54,6 +55,7 @@ public class BitbucketServerPushEventTest {
 
     @Test
     public void updatePayload() throws Exception {
+//        System.out.println(payload);
         BitbucketPushEvent event = BitbucketServerWebhookPayload.pushEventFromPayload(payload);
         assertThat(event.getRepository(), notNullValue());
         assertThat(event.getRepository().getScm(), is("git"));

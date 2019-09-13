@@ -70,6 +70,7 @@ public class NativeServerPushHookProcessor extends HookProcessor {
     @Override
     public void process(HookEventType hookEvent, String payload, BitbucketType instanceType, String origin,
         String serverUrl) {
+        LOGGER.log(Level.INFO, "hookEvent: {0}\n payload: {1}\n instancyType: {2}\n origin: {3}", new Object[]{hookEvent, payload, instanceType, origin});
         if (payload == null) {
             return;
         }

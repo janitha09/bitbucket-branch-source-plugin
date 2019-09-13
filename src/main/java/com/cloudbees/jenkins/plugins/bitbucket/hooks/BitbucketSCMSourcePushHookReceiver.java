@@ -88,8 +88,8 @@ public class BitbucketSCMSourcePushHookReceiver extends CrumbExclusion implement
             return HttpResponses.error(HttpServletResponse.SC_BAD_REQUEST, "X-Event-Key HTTP header invalid: " + eventKey);
         }
 
-        String bitbucketKey = req.getHeader("X-Bitbucket-Type");
-        String serverUrl = req.getParameter("server_url");
+        String bitbucketKey = req.getHeader("X-Bitbucket-Type"); //this was null
+        String serverUrl = req.getParameter("server_url");//this was null
         BitbucketType instanceType = null;
         if (bitbucketKey != null) {
             instanceType = BitbucketType.fromString(bitbucketKey);
