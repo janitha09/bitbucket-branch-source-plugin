@@ -62,6 +62,8 @@ public class PushHookProcessor extends HookProcessor {
 
     @Override
     public void process(HookEventType hookEvent, String payload, BitbucketType instanceType, String origin) {
+        LOGGER.log(Level.INFO, "Processing push event on hookEvent: {0}\n payload: {1}\ninstanceType: {2}\norigin: {3}",
+                            new Object[]{hookEvent, payload,instanceType,origin});
         if (payload != null) {
             BitbucketPushEvent push;
             if (instanceType == BitbucketType.SERVER) {

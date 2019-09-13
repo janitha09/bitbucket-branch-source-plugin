@@ -87,9 +87,10 @@ public class BitbucketSCMSourcePushHookReceiver extends CrumbExclusion implement
             LOGGER.info("Received unknown Bitbucket hook: " + eventKey + ". Skipping.");
             return HttpResponses.error(HttpServletResponse.SC_BAD_REQUEST, "X-Event-Key HTTP header invalid: " + eventKey);
         }
-
+        //May be the new version of bitbucket sets the header?
         String bitbucketKey = req.getHeader("X-Bitbucket-Type"); //this was null
         String serverUrl = req.getParameter("server_url");//this was null
+        LOGGER.log(Level.INFO, " req.getHeader(\"X-Bitbucket-Type\"): {0}\nreq.getParameter(\"server_url\"): {1}", new Object[]{bitbucketKey, serverUrl});
         BitbucketType instanceType = null;
         if (bitbucketKey != null) {
             instanceType = BitbucketType.fromString(bitbucketKey);

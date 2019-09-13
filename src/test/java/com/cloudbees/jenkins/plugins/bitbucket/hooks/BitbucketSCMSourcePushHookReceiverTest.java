@@ -1,14 +1,11 @@
 package com.cloudbees.jenkins.plugins.bitbucket.hooks;
 
-import com.gargoylesoftware.htmlunit.javascript.host.fetch.Headers;
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Type;
-import java.nio.charset.StandardCharsets;
 import java.security.Principal;
 import java.util.Calendar;
 import java.util.Collection;
@@ -39,14 +36,10 @@ import net.sf.json.JSONObject;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.io.IOUtils;
 import org.apache.http.entity.mime.MultipartEntityBuilder;
-import org.hamcrest.Matchers;
 import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.nullValue;
+import static org.hamcrest.Matchers.notNullValue;
 import static org.junit.Assert.assertThat;
-import org.junit.Rule;
 import org.junit.Test;
-import org.jvnet.hudson.test.Issue;
-import org.jvnet.hudson.test.JenkinsRule;
 import org.kohsuke.stapler.Ancestor;
 import org.kohsuke.stapler.BindInterceptor;
 import org.kohsuke.stapler.Stapler;
@@ -55,7 +48,6 @@ import org.kohsuke.stapler.StaplerResponse;
 import org.kohsuke.stapler.WebApp;
 import org.kohsuke.stapler.bind.BoundObjectTable;
 import org.kohsuke.stapler.lang.Klass;
-import static org.mockito.Matchers.notNull;
 
 public class BitbucketSCMSourcePushHookReceiverTest {
 
@@ -66,7 +58,7 @@ public class BitbucketSCMSourcePushHookReceiverTest {
         String origin = SCMEvent.originOf(req);
         assertThat(SCMEvent.originOf(req), is("192.168.118.64 ⇒ http://jenkins.example.com:8080/bitbucket-scmsource-hook/notify"));
         String body = IOUtils.toString(req.getInputStream());
-        assertThat(body, is(Matchers.notNullValue()));
+        assertThat(body, is(notNullValue()));
         String eventKey = req.getHeader("X-Event-Key");
         assertThat(eventKey, is("repo:refs_changed"));
 //        alpha on August 6 2019. https://github.com/jenkinsci/atlassian-bitbucket-server-integration-plugin/tree/master/src/main/java/com/atlassian/bitbucket/jenkins/internal not in the market place?? https://community.atlassian.com/t5/Bitbucket-articles/Atlassian-supported-Jenkins-integration-for-Bitbucket-Server/ba-p/1148326
@@ -76,21 +68,15 @@ public class BitbucketSCMSourcePushHookReceiverTest {
         assertThat(1, is(1));
 //            @Rule
 //    public JenkinsRule j = new JenkinsRule();
-//    
 //    @Test
 //    @Issue("JENKINS-42717")
 //    public void shouldNotFailIfTheDefaultViewIsMissing() {
 //        String viewName = "NonExistentView";
 //        GlobalDefaultViewConfiguration c = new GlobalDefaultViewConfiguration();
-//        
 //        StaplerRequest create = new MockStaplerRequestBuilder(j, "/configure").build();
-
-
-
     }
 
     class DummyStaplerRequest implements StaplerRequest {
-
         DummyStaplerRequest() throws IOException {
 
             this.buf = generateMultipartData();
